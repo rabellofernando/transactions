@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <appender name="ROOT-CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %X L=%.-1level c=%logger{0} \(%t\) %msg%n%ex</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC-APPENDER" class="ch.qos.logback.core.AsyncAppender">
+        <appender-ref ref="console"/>
+        <queueSize>1024</queueSize>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="ROOT-CONSOLE"/>
+    </root>
+</configuration>
