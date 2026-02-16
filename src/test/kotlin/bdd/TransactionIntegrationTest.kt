@@ -30,7 +30,7 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
     @Autowired
     private lateinit var transactionRepository: TransactionRepository
 
-    private var testAccountId: String = ""
+    private var testCodAccount: String = ""
 
     @BeforeEach
     fun setup() {
@@ -40,7 +40,7 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
         transactionRepository.deleteAll()
         accountRepository.deleteAll()
 
-        testAccountId = Given {
+        testCodAccount = Given {
             contentType(ContentType.JSON)
             body(AccountRequest(documentNumber = "12345678900"))
         } When {
@@ -57,8 +57,8 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
     @DisplayName("Should create transaction with negative amount for purchase")
     fun `should create transaction with negative amount for purchase`() {
         val request = TransactionRequest(
-            codAccount = testAccountId,
-            operationTypeId = 1L,
+            codAccount = testCodAccount,
+            operationTypeId = OperationType.PURCHASE.id,
             amount = BigDecimal("50.00")
         )
 
@@ -70,7 +70,7 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
         } Then {
             statusCode(201)
             body("transaction_code", notNullValue())
-            body("account_code", equalTo(testAccountId))
+            body("account_code", equalTo(testCodAccount))
             body("operation_type_id", equalTo(1))
             body("amount", equalTo(-50.00f))
             body("event_date", notNullValue())
@@ -82,7 +82,7 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
     @DisplayName("Should create transaction with positive amount for credit")
     fun `should create transaction with positive amount for credit`() {
         val request = TransactionRequest(
-            codAccount = testAccountId,
+            codAccount = testCodAccount,
             operationTypeId = OperationType.CREDIT_VOUCHER.id,
             amount = BigDecimal("60.00")
         )
@@ -103,7 +103,7 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
     @DisplayName("Should create purchase with installments")
     fun `should create purchase with installments`() {
         val request = TransactionRequest(
-            codAccount = testAccountId,
+            codAccount = testCodAccount,
             operationTypeId = OperationType.PURCHASE_INSTALLMENTS.id,
             amount = BigDecimal("23.50")
         )
@@ -125,7 +125,7 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
     @DisplayName("Should create withdrawal")
     fun `should create withdrawal`() {
         val request = TransactionRequest(
-            codAccount = testAccountId,
+            codAccount = testCodAccount,
             operationTypeId = OperationType.WITHDRAWAL.id,
             amount = BigDecimal("18.70")
         )
@@ -149,7 +149,7 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
         val accountId = UUID.randomUUID().toString()
         val request = TransactionRequest(
             codAccount = accountId,
-            operationTypeId = 1L,
+            operationTypeId = OperationType.PURCHASE.id,
             amount = BigDecimal("50.00")
         )
 
@@ -170,7 +170,7 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
     @DisplayName("Should return 404 for invalid operation type")
     fun `should return 404 for invalid operation type`() {
         val request = TransactionRequest(
-            codAccount = testAccountId,
+            codAccount = testCodAccount,
             operationTypeId = 999L,
             amount = BigDecimal("50.00")
         )
@@ -191,10 +191,10 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
     @Order(7)
     @DisplayName("Should return 400 for negative amount")
     fun `should return 400 for negative amount`() {
-        val request = mapOf(
-            "account_id" to testAccountId,
-            "operation_type_id" to 1,
-            "amount" to -50.00
+        val request = TransactionRequest(
+            codAccount = testCodAccount,
+            operationTypeId = OperationType.PURCHASE.id,
+            amount = BigDecimal("-50.00")
         )
 
         Given {
@@ -214,8 +214,8 @@ class TransactionIntegrationTest : BaseIntegrationTest() {
     @DisplayName("Should handle decimal precision correctly")
     fun `should handle decimal precision correctly`() {
         val request = TransactionRequest(
-            codAccount = testAccountId,
-            operationTypeId = 1L,
+            codAccount = testCodAccount,
+            operationTypeId = OperationType.PURCHASE.id,
             amount = BigDecimal("123.45")
         )
 
