@@ -4,8 +4,8 @@ REST API for managing bank transactions.
 
 ## Technologies
 
-- Kotlin 2.0.21
-- Spring Boot 3.4.2
+- Kotlin 2.2.21
+- Spring Boot 4.0.2
 - PostgreSQL
 - Docker
 
