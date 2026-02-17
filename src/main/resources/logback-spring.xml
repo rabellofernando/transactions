@@ -6,11 +6,6 @@
         </encoder>
     </appender>
 
-    <appender name="ASYNC-APPENDER" class="ch.qos.logback.core.AsyncAppender">
-        <appender-ref ref="console"/>
-        <queueSize>1024</queueSize>
-    </appender>
-
     <root level="INFO">
         <appender-ref ref="ROOT-CONSOLE"/>
     </root>

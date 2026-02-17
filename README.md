@@ -4,10 +4,12 @@ REST API for managing bank transactions.
 
 ## Technologies
 
+- Java 21
 - Kotlin 2.2.21
 - Spring Boot 4.0.2
 - PostgreSQL
 - Docker
+- Rest Assured + Test containers
 
 ## Architecture
 
@@ -74,3 +76,4 @@ Application available at `http://localhost:8080`
 - Documents are stored without formatting in the database
 - Next steps would be migrating all the "migration" part onto a different project / pipeline, using tools such as db-migration, versioning the scripts. with the application version is not a good practice, but since we're talking about tests, it's allowed. :P
 - Add a cache layer on account entity, starting by @Cacheable, and maybe use a cache provider such as memcached or redis instead of caching it locally on its instance
+- Maybe create a new project using either cucumber or karate for bdd tests instead of rest assured + test containers on this one
