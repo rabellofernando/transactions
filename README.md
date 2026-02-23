@@ -34,14 +34,13 @@ This organization keeps business code isolated, making testing and maintenance e
 
 - Create accounts
 - Register transactions (purchase, installment, withdrawal, credit)
-- CPF/CNPJ validation
 
 ## Endpoints
 
 ```
-POST   /accounts                    # Create account
-GET    /accounts/{id}               # Get account
-POST   /transactions                # Create transaction
+POST   /account                    # Create account
+GET    /account/{id}               # Get account
+POST   /transaction                # Create transaction
 GET    /actuator                    # Actuator endpoints such as /health for readiness and liveness probe
 ```
 
